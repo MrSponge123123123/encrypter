@@ -33,3 +33,25 @@ def encrypt(message: str) -> str:
     return encrypted_message
 
 
+def decrypt(encrypted_message: str) -> str:
+    while encrypted_message[-1] == " ":
+        encrypted_message = encrypted_message.removesuffix(" ")
+
+    encrypted_chars: list[str] = encrypted_message.split(" ")
+
+    decrypted_chars: dict[int, str] = {}
+
+    for encrypted_char in encrypted_chars:
+        value: int = int(f"{encrypted_char[0]}{encrypted_char[2]}") if int(encrypted_char[1]) < 5 \
+            else -int(math.fabs(int(f"{encrypted_char[0]}{encrypted_char[2]}") + 1)) + len(dictionary)
+
+        char: str = dictionary[value]
+        pos: int = int(encrypted_char[3:])
+
+        decrypted_chars[pos] = char
+
+    decrypted_message: str = ""
+    for index in range(len(decrypted_chars)):
+        decrypted_message += decrypted_chars[index]
+
+    return decrypted_message
