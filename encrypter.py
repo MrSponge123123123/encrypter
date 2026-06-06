@@ -8,7 +8,7 @@ dictionary: list[str] = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", 
 
 def encrypt(message: str) -> str:
     rand = Random()
-    encrypted_message: str = ""
+    encrypted_chars: list[str] = []
 
     for pos in range(len(message)):
         char: str = message[pos]
@@ -18,6 +18,16 @@ def encrypt(message: str) -> str:
         formatted_value: str = f"{value:02}"
         encrypted_char: str = f"{formatted_value[0]}{rand.randint(0, 4) if not reverse_value else rand.randint(5, 9)}{formatted_value[1]}{pos}"
 
+        encrypted_chars.append(encrypted_char)
+
+    randomised_encrypted_chars: list[str] = []
+    while len(encrypted_chars) > 0:
+        index: int = rand.randint(0, len(encrypted_chars) - 1)
+        randomised_encrypted_chars.append(encrypted_chars[index])
+        encrypted_chars.pop(index)
+
+    encrypted_message: str = ""
+    for encrypted_char in randomised_encrypted_chars:
         encrypted_message += f"{encrypted_char} "
 
     return encrypted_message
